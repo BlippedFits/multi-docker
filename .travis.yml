@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t amray/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true amray/react-test npm test
+
+after_success:
+  - docker build -t amray/multi-client ./client
+  - docker build -t amray/multi-nginx ./nginx
+  - docker build -t amray/multi-server ./server
+  - docker build -t amray/multi-worker ./worker
+  # Log into the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push amray/multi-client
+  - docker push amray/multi-nginx
+  - docker push amray/multi-server
+  - docker push amray/multi-worker
