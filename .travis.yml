@@ -7,7 +7,7 @@ before_install:
   - docker build -t amray/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true amray/react-test npm run test
+  - docker run -e CI=true amray/react-test npm test
 
 after_success:
   - docker build -t amray/multi-client ./client
