@@ -1,3 +1,4 @@
+language: generic
 sudo: required
 services:
   - docker
@@ -20,4 +21,3 @@ after_success:
   - docker push amray/multi-nginx
   - docker push amray/multi-server
   - docker push amray/multi-worker
-  #Change 1
